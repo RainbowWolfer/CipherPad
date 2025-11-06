@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace CipherPad;
+namespace CipherPad.Properties;
 
 public static class FolderConfig {
 	/// <summary> 软件 exe 路径 </summary>

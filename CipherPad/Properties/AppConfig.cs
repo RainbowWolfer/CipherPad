@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace CipherPad;
+namespace CipherPad.Properties;
 
 public static class AppConfig {
 

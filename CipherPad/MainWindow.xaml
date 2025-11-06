@@ -2,28 +2,77 @@
 	x:Class="CipherPad.MainWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:base="RW.Base.WPF"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:hc="https://handyorg.github.io/handycontrol"
 	xmlns:local="clr-namespace:CipherPad"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="{x:Static local:AppConfig.AppName}"
+	xmlns:p="clr-namespace:CipherPad.Properties"
+	xmlns:wpf="RW.Common.WPF"
+	Title="{x:Static p:AppConfig.AppName}"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+	DataContext="{base:DISource Type=local:MainWindowViewModel}"
 	Width="800"
 	Height="450"
 	MinWidth="250"
 	MinHeight="120"
+	Icon="/Icon.png"
 	ResizeMode="CanResizeWithGrip"
 	ShowIcon="True"
 	mc:Ignorable="d">
 
 	<Grid Background="{DynamicResource RegionBrush}">
-		<StackPanel x:Name="Panel">
+		<!--<StackPanel x:Name="Panel">
 			<Button Click="Button_Click" Content="1"/>
 			<Button Click="Button_Click_1" Content="2"/>
 			<Button Background="{DynamicResource BorderBrush}" Click="Button_Click_2" Content="3"/>
 			<Button Style="{DynamicResource ButtonPrimary}" Click="Button_Click_3" Content="Window"/>
 			<Button Click="Button_Click_4" Content="Add"/>
 
-		</StackPanel>
+		</StackPanel>-->
+		<DockPanel>
+
+			<Border
+				Padding="6,2,6,6"
+				BorderThickness="0,0,0,1"
+				BorderBrush="{DynamicResource BorderBrush}"
+				DockPanel.Dock="Top">
+				<DockPanel>
+					<Border>
+						<hc:UniformSpacingPanel HorizontalSpacing="4" Orientation="Horizontal">
+							<Button Command="{Binding NewFileCommand}" ToolTip="New File">
+								<wpf:FontIcon Text="&#xE8A5;"/>
+							</Button>
+							<Button Command="{Binding OpenFileCommand}" ToolTip="Open File">
+								<wpf:FontIcon Text="&#xE8E5;"/>
+							</Button>
+						</hc:UniformSpacingPanel>
+					</Border>
+
+					<Border HorizontalAlignment="Right">
+						<hc:UniformSpacingPanel HorizontalSpacing="4" Orientation="Horizontal">
+							<TextBlock Text="{Binding Hello}"/>
+							<Button Command="{Binding SwitchThemeCommand}" Content="Switch Theme"/>
+						</hc:UniformSpacingPanel>
+					</Border>
+
+				</DockPanel>
+			</Border>
+
+			<TabControl>
+				<TabItem Header="dwq1">
+
+				</TabItem>
+				<TabItem Header="dwq2">
+
+				</TabItem>
+				<TabItem Header="dwq3">
+
+				</TabItem>
+
+			</TabControl>
+		</DockPanel>
+
 	</Grid>
 
 </hc:Window>

@@ -1,4 +1,5 @@
-﻿using HandyControl.Tools;
+﻿using CipherPad.Properties;
+using HandyControl.Tools;
 using RW.Base.WPF;
 using RW.Base.WPF.Extensions;
 using System.Diagnostics;
@@ -20,6 +21,9 @@ public partial class App : ApplicationBase {
 
 	protected override void BeforeLoadingModules() {
 		base.BeforeLoadingModules();
+
+		//Resources.MergedDictionaries.RemoveAt(0);
+		//Resources.MergedDictionaries.RemoveAt(0);
 
 		ConfigHelper.Instance.SetWindowDefaultStyle();
 		ConfigHelper.Instance.SetNavigationWindowDefaultStyle();

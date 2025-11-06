@@ -1,4 +1,5 @@
-﻿using RW.Base.WPF.Extensions;
+﻿using CipherPad.Properties;
+using RW.Base.WPF.Extensions;
 using System.Diagnostics;
 
 namespace CipherPad;

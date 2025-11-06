@@ -14,27 +14,53 @@
 		<Company>RainbowWolfer</Company>
 		<Copyright>RainbowWolfer</Copyright>
 
+		<!--<ApplicationIcon>Icon.png</ApplicationIcon>-->
+
 		<Version>0.0.1</Version>
 
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="HandyControls" Version="3.6.0" />
-		<PackageReference Include="RW.Base.WPF" Version="1.0.5" />
-		<PackageReference Include="RW.Common" Version="1.0.5" />
-		<PackageReference Include="RW.Common.WPF" Version="1.0.5" />
+		<None Remove="Icon.png" />
+		<None Remove="Resources\Segoe Fluent Icons.ttf" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="HandyControl" Version="3.5.1" />
+		<PackageReference Include="DevExpressMvvm" Version="24.1.6" />
+		<PackageReference Include="HandyControls" Version="3.6.0" />
+		<PackageReference Include="RW.Base.WPF" Version="1.0.8" />
+		<PackageReference Include="RW.Common" Version="1.0.8" />
+		<PackageReference Include="RW.Common.WPF" Version="1.0.8" />
 	</ItemGroup>
-
 
 	<ItemGroup>
 		<PackageReference Include="PolySharp" Version="1.15.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<Resource Include="Icon.png" />
+		<Resource Include="Resources\Segoe Fluent Icons.ttf" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Compile Update="Properties\AppStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>AppStrings.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\AppStrings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>

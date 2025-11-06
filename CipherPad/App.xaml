@@ -12,12 +12,19 @@
 	<base:ApplicationBase.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+
+				<!-- !!!!!!!!!!!!!! -->
+				<!-- Only for code hint, dont use in release mode -->
+				<ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Basic/Colors/Dark.xaml"/>
+				<ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+				<!-- !!!!!!!!!!!!!! -->
+
 				<hc:ThemeResources UsingSystemTheme="True"/>
 				<hc:Theme/>
 
-				<!--<ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Basic/Colors/ColorsDark.xaml"/>-->
-				<d:ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Basic/Colors/Dark.xaml"/>
-				<d:ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+				<ResourceDictionary Source="/Resources/Generic.xaml"/>
+
+
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</base:ApplicationBase.Resources>
