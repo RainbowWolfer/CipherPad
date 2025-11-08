@@ -50,8 +50,8 @@
 					</Border>
 
 					<Border HorizontalAlignment="Right">
-						<hc:UniformSpacingPanel HorizontalSpacing="4" Orientation="Horizontal">
-							<TextBlock Text="{Binding Hello}"/>
+						<hc:UniformSpacingPanel HorizontalSpacing="4" ItemVerticalAlignment="Center" Orientation="Horizontal">
+							<TextBlock Margin="4,0" Text="{Binding Hello}"/>
 							<Button Command="{Binding SwitchThemeCommand}" Content="Switch Theme"/>
 						</hc:UniformSpacingPanel>
 					</Border>

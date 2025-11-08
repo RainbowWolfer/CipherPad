@@ -1,10 +1,9 @@
 ﻿using CipherPad.Properties;
-using HandyControl.Tools;
 using RW.Base.WPF;
 using RW.Base.WPF.Extensions;
+using RW.Base.WPF.ViewModels;
 using System.Diagnostics;
 using System.Globalization;
-using System.Net;
 using System.Windows;
 
 namespace CipherPad;
@@ -19,18 +18,6 @@ public partial class App : ApplicationBase {
 		instance = this;
 	}
 
-	protected override void BeforeLoadingModules() {
-		base.BeforeLoadingModules();
-
-		//Resources.MergedDictionaries.RemoveAt(0);
-		//Resources.MergedDictionaries.RemoveAt(0);
-
-		ConfigHelper.Instance.SetWindowDefaultStyle();
-		ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
-
-		ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-	}
-
 	public override Window GetMainWindow() => new MainWindow();
 
 	protected override void DebugPrint(string message) {
@@ -42,15 +29,14 @@ public partial class App : ApplicationBase {
 		return null;
 	}
 
+	protected override AppManager GetAppManager() => new _AppManager();
 	protected override DllLoader GetDllLoader() => new _DllLoader();
-	protected override IFatalDebugLogger GetFatalDebugLogger() => new _FatalDebugLogger();
-	protected override IHandledDebugLogger GetHandledDebugLogger() => new _HandledDebugLogger();
 	protected override IoCInitializer GetIoCInitializer() => new _IoCInitializer(DllLoader);
 
 	protected override string GetMutexName() => $"{AppConfig.AppName}.{AppConfig.AppName}";
 	protected override string GetPipeName() => $"{AppConfig.AppName}.{AppConfig.AppName}";
 
-	protected override void HandledException(Exception exception, string flag) {
+	protected override void LogException(Exception exception, string flag) {
 		Debug.WriteLine($"{flag} - {exception}");
 	}
 
