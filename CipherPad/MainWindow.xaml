@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:base="RW.Base.WPF"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
 	xmlns:hc="https://handyorg.github.io/handycontrol"
 	xmlns:local="clr-namespace:CipherPad"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,12 +15,21 @@
 	DataContext="{base:DISource Type=local:MainWindowViewModel}"
 	Width="800"
 	Height="450"
-	MinWidth="250"
-	MinHeight="120"
+	MinWidth="350"
+	MinHeight="220"
 	Icon="/Icon.png"
 	ResizeMode="CanResizeWithGrip"
 	ShowIcon="True"
 	mc:Ignorable="d">
+
+	<Window.Resources>
+		<wpf:BindingProxy x:Key="ViewModel" Data="{Binding}"/>
+	</Window.Resources>
+
+	<dxmvvm:Interaction.Behaviors>
+		<dxmvvm:OpenFileDialogService/>
+		<dxmvvm:SaveFileDialogService/>
+	</dxmvvm:Interaction.Behaviors>
 
 	<Grid Background="{DynamicResource RegionBrush}">
 		<!--<StackPanel x:Name="Panel">
@@ -40,12 +50,36 @@
 				<DockPanel>
 					<Border>
 						<hc:UniformSpacingPanel HorizontalSpacing="4" Orientation="Horizontal">
-							<Button Command="{Binding NewFileCommand}" ToolTip="New File">
+							<wpf:MenuButton Style="{DynamicResource ButtonBaseStyle}" ToolTip="New File">
+								<wpf:MenuButton.ContextMenu>
+									<ContextMenu Style="{StaticResource ContextMenu.Small}">
+										<MenuItem Command="{Binding NewPasswordFileCommand}" Header="New password encrypted file"/>
+										<MenuItem Header="New RSA encrypted file"/>
+									</ContextMenu>
+								</wpf:MenuButton.ContextMenu>
 								<wpf:FontIcon Text="&#xE8A5;"/>
-							</Button>
+							</wpf:MenuButton>
 							<Button Command="{Binding OpenFileCommand}" ToolTip="Open File">
 								<wpf:FontIcon Text="&#xE8E5;"/>
 							</Button>
+
+							<ItemsControl ItemsSource="{Binding AdditionalButtons}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<hc:UniformSpacingPanel HorizontalSpacing="4" Orientation="Horizontal"/>
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Button Command="{Binding Command}" ToolTip="{Binding ToolTip}">
+											<wpf:FontIcon Text="{Binding Icon}"/>
+										</Button>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+
+							</ItemsControl>
+
 						</hc:UniformSpacingPanel>
 					</Border>
 
@@ -59,16 +93,41 @@
 				</DockPanel>
 			</Border>
 
-			<TabControl>
-				<TabItem Header="dwq1">
+			<Border
+				Padding="4,2"
+				BorderThickness="0,1,0,0"
+				BorderBrush="{DynamicResource BorderBrush}"
+				Background="{DynamicResource SecondaryRegionBrush}"
+				DockPanel.Dock="Bottom">
+				<DockPanel>
+					<Border/>
+					<Border HorizontalAlignment="Right">
+						<TextBlock Margin="0,0,18,0" VerticalAlignment="Center" Text="1.0.0"/>
+					</Border>
+				</DockPanel>
+			</Border>
 
-				</TabItem>
-				<TabItem Header="dwq2">
+			<TabControl
+				BorderThickness="0,1,0,0"
+				SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}"
+				TabStripPlacement="Top"
+				ItemsSource="{Binding TabItems}">
 
-				</TabItem>
-				<TabItem Header="dwq3">
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<Border>
+							<TextBlock Text="{Binding Header}"/>
+						</Border>
+					</DataTemplate>
+				</TabControl.ItemTemplate>
 
-				</TabItem>
+				<TabControl.ContentTemplate>
+					<DataTemplate>
+						<Border>
+							<ContentControl Content="{Binding View}" Focusable="False" IsTabStop="False"/>
+						</Border>
+					</DataTemplate>
+				</TabControl.ContentTemplate>
 
 			</TabControl>
 		</DockPanel>

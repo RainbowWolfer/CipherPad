@@ -19,11 +19,10 @@
 				<ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
 				<!-- !!!!!!!!!!!!!! -->
 
-				<hc:ThemeResources UsingSystemTheme="True"/>
+				<hc:ThemeResources UsingSystemTheme="True" UsingWindowsAppTheme="True"/>
 				<hc:Theme/>
 
 				<ResourceDictionary Source="/Resources/Generic.xaml"/>
-
 
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>

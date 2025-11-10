@@ -3,9 +3,15 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:wpf="RW.Common.WPF">
 
+	<ResourceDictionary.MergedDictionaries>
+
+		<ResourceDictionary Source="pack://application:,,,/RW.Common.WPF;component/Resources/Generic.xaml"/>
+
+	</ResourceDictionary.MergedDictionaries>
+
 	<FontFamily x:Key="IconPack">Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
 
-	<Style x:Key="FontIcon" TargetType="{x:Type wpf:FontIcon}">
+	<Style x:Key="FontIcon" TargetType="{x:Type wpf:FontIcon}" BasedOn="{StaticResource TextBlockDefault}">
 		<Setter Property="FontFamily" Value="{StaticResource IconPack}"/>
 		<Setter Property="FontSize" Value="14"/>
 	</Style>
