@@ -77,6 +77,7 @@ public class MainWindowViewModel : ViewModelBase
 	private void NewPasswordFile()
 	{
 		ITabViewModel viewModel = CreateTabViewModel<PasswordViewModel>();
+		viewModel.Initialize(null);
 		TabItems.Add(viewModel);
 		SelectedTabItem = viewModel;
 	}

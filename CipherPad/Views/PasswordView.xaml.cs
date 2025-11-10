@@ -1,6 +1,8 @@
-﻿using CipherPad.ViewModels;
+﻿using CipherPad.Services;
+using CipherPad.ViewModels;
 using DevExpress.Mvvm;
 using RW.Common.Helpers;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -15,7 +17,7 @@ public partial class PasswordView : UserControl
 
 }
 
-internal class PasswordViewModel : TabViewModelBase<PasswordView>
+internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabViewModelBase<PasswordView>
 {
 	public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
 	public ISaveFileDialogService SaveFileDialogService => GetService<ISaveFileDialogService>();
@@ -33,9 +35,10 @@ internal class PasswordViewModel : TabViewModelBase<PasswordView>
 		set => SetProperty(() => ShouldEnterPassword, value);
 	}
 
-	public PasswordViewModel()
+	public string ViewText
 	{
-		ShouldEnterPassword = true;
+		get => GetProperty(() => ViewText) ?? string.Empty;
+		set => SetProperty(() => ViewText, value);
 	}
 
 	public override IEnumerable<ButtonViewModel> GetTabButtons()
@@ -45,12 +48,14 @@ internal class PasswordViewModel : TabViewModelBase<PasswordView>
 
 	protected override void Initialize()
 	{
+		ShouldEnterPassword = false;
+
 		if (FilePath.IsBlank())
 		{
 			return;
 		}
 
-
+		string sourceText = File.ReadAllText(FilePath);
 
 
 	}
