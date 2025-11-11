@@ -58,7 +58,7 @@
 								<wpf:MenuButton.ContextMenu>
 									<ContextMenu Style="{StaticResource ContextMenu.Small}">
 										<MenuItem Command="{Binding NewPasswordFileCommand}" Header="New password encrypted file"/>
-										<MenuItem Header="New RSA encrypted file"/>
+										<MenuItem Command="{Binding NewRSAFileCommand}" Header="New RSA encrypted file"/>
 									</ContextMenu>
 								</wpf:MenuButton.ContextMenu>
 								<wpf:FontIcon Text="&#xE8A5;"/>

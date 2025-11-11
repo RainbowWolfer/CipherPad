@@ -53,7 +53,6 @@ internal class PasswordViewModel() : TabViewModelBase<PasswordView> {
 
 	private DelegateCommand? saveCommand;
 	public IDelegateCommand SaveCommand => saveCommand ??= new(Save, CanSave);
-
 	private void Save() {
 		if (CanSave()) {
 			if (!File.Exists(FilePath)) {
@@ -81,11 +80,10 @@ internal class PasswordViewModel() : TabViewModelBase<PasswordView> {
 
 				using ICryptoTransform encryptor = aes.CreateEncryptor();
 				using MemoryStream ms = new();
-				
+
 				using (CryptoStream cs = new(ms, encryptor, CryptoStreamMode.Write)) {
-					using (StreamWriter sw = new(cs, Encoding.UTF8)) {
-						sw.Write(text);
-					}
+					using StreamWriter sw = new(cs, Encoding.UTF8);
+					sw.Write(text);
 				}
 
 				byte[] encryptedBytes = ms.ToArray();
@@ -108,7 +106,6 @@ internal class PasswordViewModel() : TabViewModelBase<PasswordView> {
 			}
 		}
 	}
-
 	private bool CanSave() => Password.IsNotBlank();
 
 

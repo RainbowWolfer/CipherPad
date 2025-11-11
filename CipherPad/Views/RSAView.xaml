@@ -39,20 +39,37 @@
 						<ColumnDefinition Width="auto"/>
 					</Grid.ColumnDefinitions>
 
-					<TextBox IsReadOnly="True"/>
+					<hc:TextBox
+						Width="250"
+						hc:InfoElement.Placeholder="Select private key file"
+						IsReadOnly="True"
+						Text="{Binding PrivateKeyFilePath}"/>
 
-					<Button Grid.Column="2">
+					<Button Grid.Column="2" Command="{Binding OpenPrivateKeyFileCommand}" ToolTip="Pick file">
 						<wpf:FontIcon Text="&#xE8E5;"/>
 					</Button>
 				</Grid>
 
-				<Button Style="{StaticResource ButtonPrimary}" Command="{Binding ConfirmPasswordCommand}" Content="c"/>
+				<Button Style="{StaticResource ButtonPrimary}" Command="{Binding ConfirmCommand}" Content="Confirm"/>
 
 			</hc:UniformSpacingPanel>
 		</Border>
 
 		<Border Visibility="{Binding ShouldSelectPrivateKey, Converter={StaticResource Boolean2VisibilityReConverter}}">
+			<TextBox
+				Padding="6,4"
+				VerticalContentAlignment="Top"
+				BorderThickness="0"
+				hc:ScrollViewerAttach.AutoHide="False"
+				AcceptsReturn="True"
+				AcceptsTab="True"
+				HorizontalScrollBarVisibility="Auto"
+				Text="{Binding ViewText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				VerticalScrollBarVisibility="Auto">
+				<dxmvvm:Interaction.Behaviors>
 
+				</dxmvvm:Interaction.Behaviors>
+			</TextBox>
 		</Border>
 
 	</Grid>

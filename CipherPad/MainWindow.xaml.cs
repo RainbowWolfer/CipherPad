@@ -69,11 +69,25 @@ public class MainWindowViewModel : ViewModelBase {
 	public IDelegateCommand NewPasswordFileCommand => newPasswordFileCommand ??= new(NewPasswordFile);
 	private void NewPasswordFile() {
 		ITabViewModel viewModel = CreateTabViewModel<PasswordViewModel>();
+		Initialize(viewModel);
+	}
+
+
+	private DelegateCommand? newRSAFileCommand;
+	public IDelegateCommand NewRSAFileCommand => newRSAFileCommand ??= new(NewRSAFile);
+	private void NewRSAFile() {
+		ITabViewModel viewModel = CreateTabViewModel<RSAViewModel>();
+		Initialize(viewModel);
+	}
+
+	private void Initialize(ITabViewModel viewModel) {
+		if (viewModel is null) {
+			return;
+		}
 		viewModel.Initialize(null);
 		TabItems.Add(viewModel);
 		SelectedTabItem = viewModel;
 	}
-
 
 
 	private DelegateCommand? openCommand;
