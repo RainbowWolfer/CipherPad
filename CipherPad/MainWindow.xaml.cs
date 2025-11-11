@@ -26,6 +26,7 @@ public class MainWindowViewModel : ViewModelBase
 {
 	public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
 	public ISaveFileDialogService SaveFileDialogService => GetService<ISaveFileDialogService>();
+	public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
 
 
 	public string Hello { get; } = AppStrings.Hello;
@@ -71,6 +72,11 @@ public class MainWindowViewModel : ViewModelBase
 		return (ServicePool.Resolve<T>() as ITabViewModel) ?? throw new Exception();
 	}
 
+	private ITabViewModel CreateTabViewModel(Type type)
+	{
+		return (ServicePool.Resolve(type) as ITabViewModel) ?? throw new Exception();
+	}
+
 
 	private DelegateCommand? newPasswordFileCommand;
 	public IDelegateCommand NewPasswordFileCommand => newPasswordFileCommand ??= new(NewPasswordFile);
@@ -100,14 +106,54 @@ public class MainWindowViewModel : ViewModelBase
 
 			if (File.Exists(filePath))
 			{
-				// todo : judge the type here 
-				ITabViewModel viewModel = CreateTabViewModel<PasswordViewModel>();
+				byte b;
+				using (FileStream fs = File.OpenRead(filePath))
+				{
+					int firstByte = fs.ReadByte(); // 返回值是 int，-1 表示文件为空
+					if (firstByte == -1)
+					{
+						b = (byte)firstByte;
+					}
+					else
+					{
+						MessageBoxService.ShowMessage("Unable to read invalid file.", "Error", MessageButton.OK, MessageIcon.Error);
+						return;
+					}
+				}
+
+				Type? type = b switch
+				{
+					PasswordViewModel.TypeID => typeof(PasswordViewModel),
+					_ => null,
+				};
+
+				if (type is null)
+				{
+					MessageBoxService.ShowMessage("Unable to determine file type.", "Error", MessageButton.OK, MessageIcon.Error);
+					return;
+				}
+
+				ITabViewModel viewModel = CreateTabViewModel(type);
 				viewModel.Initialize(filePath);
 				TabItems.Add(viewModel);
 				SelectedTabItem = viewModel;
 			}
 
 		}
+	}
+
+
+
+	private DelegateCommand<ITabViewModel>? closeCommand;
+	public IDelegateCommand CloseCommand => closeCommand ??= new(Close);
+	private void Close(ITabViewModel item)
+	{
+		if (MessageBoxService.ShowMessage("Are you sure to close this tab?", "Close Tab", MessageButton.OKCancel, MessageIcon.Question) is not MessageResult.OK)
+		{
+			return;
+		}
+
+		TabItems.Remove(item);
 	}
 
 

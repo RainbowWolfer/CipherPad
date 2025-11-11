@@ -24,11 +24,15 @@
 
 	<Window.Resources>
 		<wpf:BindingProxy x:Key="ViewModel" Data="{Binding}"/>
+
+
+		<wpf:CommandProxy x:Key="CloseCommand" Command="{Binding CloseCommand}"/>
 	</Window.Resources>
 
 	<dxmvvm:Interaction.Behaviors>
 		<dxmvvm:OpenFileDialogService/>
 		<dxmvvm:SaveFileDialogService/>
+		<dxmvvm:MessageBoxService/>
 	</dxmvvm:Interaction.Behaviors>
 
 	<Grid Background="{DynamicResource RegionBrush}">
@@ -59,7 +63,7 @@
 								</wpf:MenuButton.ContextMenu>
 								<wpf:FontIcon Text="&#xE8A5;"/>
 							</wpf:MenuButton>
-							<Button Command="{Binding OpenFileCommand}" ToolTip="Open File">
+							<Button Command="{Binding OpenCommand}" ToolTip="Open File">
 								<wpf:FontIcon Text="&#xE8E5;"/>
 							</Button>
 
@@ -108,15 +112,29 @@
 			</Border>
 
 			<TabControl
+				d:SelectedIndex="0"
 				BorderThickness="0,1,0,0"
 				SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}"
 				TabStripPlacement="Top"
-				ItemsSource="{Binding TabItems}">
+				ItemsSource="{Binding TabItems}"
+				d:ItemsSource="{d:SampleData ItemCount=5}">
 
 				<TabControl.ItemTemplate>
 					<DataTemplate>
 						<Border>
-							<TextBlock Text="{Binding Header}"/>
+							<DockPanel MinWidth="200">
+								<Button
+									Height="14"
+									Padding="0"
+									BorderThickness="0"
+									Background="Transparent"
+									Command="{StaticResource CloseCommand}"
+									CommandParameter="{Binding}"
+									DockPanel.Dock="Right">
+									<wpf:FontIcon FontSize="10" Foreground="{DynamicResource DangerBrush}" Text="&#xE653;"/>
+								</Button>
+								<TextBlock VerticalAlignment="Center" Text="{Binding Header}"/>
+							</DockPanel>
 						</Border>
 					</DataTemplate>
 				</TabControl.ItemTemplate>

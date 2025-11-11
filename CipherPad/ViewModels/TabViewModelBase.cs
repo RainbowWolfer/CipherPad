@@ -35,7 +35,7 @@ public abstract class TabViewModelBase<T> : ViewModelBase, ITabViewModel
 	public string? FilePath
 	{
 		get => GetProperty(() => FilePath);
-		private set => SetProperty(() => FilePath, value);
+		protected set => SetProperty(() => FilePath, value);
 	}
 
 	public T View { get; }
