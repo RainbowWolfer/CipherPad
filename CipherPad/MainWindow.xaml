@@ -122,7 +122,7 @@
 				<TabControl.ItemTemplate>
 					<DataTemplate>
 						<Border>
-							<DockPanel MinWidth="200">
+							<DockPanel MinWidth="120">
 								<Button
 									Height="14"
 									Padding="0"

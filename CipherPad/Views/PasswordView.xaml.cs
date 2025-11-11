@@ -1,5 +1,4 @@
-﻿using CipherPad.Services;
-using CipherPad.ViewModels;
+﻿using CipherPad.ViewModels;
 using DevExpress.Mvvm;
 using RW.Base.WPF.Extensions;
 using RW.Common.Helpers;
@@ -11,17 +10,13 @@ using System.Windows.Input;
 
 namespace CipherPad.Views;
 
-public partial class PasswordView : UserControl
-{
-	public PasswordView()
-	{
+public partial class PasswordView : UserControl {
+	public PasswordView() {
 		InitializeComponent();
 	}
-
 }
 
-internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabViewModelBase<PasswordView>
-{
+internal class PasswordViewModel() : TabViewModelBase<PasswordView> {
 	public const byte TypeID = 0x01;
 
 	public const int SaltLength = 16;
@@ -33,55 +28,44 @@ internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabVi
 	public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
 
 
-	public string Password
-	{
+	public string Password {
 		get => GetProperty(() => Password);
 		set => SetProperty(() => Password, value);
 	}
 
-	public bool ShouldEnterPassword
-	{
+	public bool ShouldEnterPassword {
 		get => GetProperty(() => ShouldEnterPassword);
 		set => SetProperty(() => ShouldEnterPassword, value);
 	}
 
-	public string ViewText
-	{
+	public string ViewText {
 		get => GetProperty(() => ViewText) ?? string.Empty;
 		set => SetProperty(() => ViewText, value);
 	}
 
-	public override IEnumerable<ButtonViewModel> GetTabButtons()
-	{
+	public override IEnumerable<ButtonViewModel> GetTabButtons() {
 		yield return new ButtonViewModel("\uE74E", "Save", SaveCommand);
 	}
 
-	protected override void Initialize()
-	{
+	protected override void Initialize() {
 		ShouldEnterPassword = true;
 	}
 
 	private DelegateCommand? saveCommand;
 	public IDelegateCommand SaveCommand => saveCommand ??= new(Save, CanSave);
-	private void Save()
-	{
-		if (CanSave())
-		{
-			if (!File.Exists(FilePath))
-			{
-				if (SaveFileDialogService.ShowDialog())
-				{
+
+	private void Save() {
+		if (CanSave()) {
+			if (!File.Exists(FilePath)) {
+				if (SaveFileDialogService.ShowDialog()) {
 					string filePath = SaveFileDialogService.GetFullFileName();
 					FilePath = filePath;
-				}
-				else
-				{
+				} else {
 					return;
 				}
 			}
 
-			try
-			{
+			try {
 				string password = Password;
 				string text = ViewText ?? string.Empty;
 
@@ -97,15 +81,14 @@ internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabVi
 
 				using ICryptoTransform encryptor = aes.CreateEncryptor();
 				using MemoryStream ms = new();
-				using (CryptoStream cs = new(ms, encryptor, CryptoStreamMode.Write))
-				using (StreamWriter sw = new(cs, Encoding.UTF8))
-				{
-					sw.Write(text);
+				
+				using (CryptoStream cs = new(ms, encryptor, CryptoStreamMode.Write)) {
+					using (StreamWriter sw = new(cs, Encoding.UTF8)) {
+						sw.Write(text);
+					}
 				}
 
 				byte[] encryptedBytes = ms.ToArray();
-
-				byte[] resultBytes = new byte[sizeof(byte) + SaltLength + sizeof(int) + IVLength + encryptedBytes.Length];
 
 				byte fileType = 0x01;
 
@@ -119,28 +102,23 @@ internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabVi
 				bw.Write(iv);
 				bw.Write(encryptedBytes.Length);
 				bw.Write(encryptedBytes);
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				DebugLoggerManager.HandledLogger.Log(ex, "PasswordView_Save");
 				MessageBoxService.ShowMessage(ex.ToString(), "Error", MessageButton.OK, MessageIcon.Error);
 			}
 		}
 	}
-	private bool CanSave() => Password.IsNotBlank();
 
+	private bool CanSave() => Password.IsNotBlank();
 
 
 	private DelegateCommand? confirmPasswordCommand;
 	public IDelegateCommand ConfirmPasswordCommand => confirmPasswordCommand ??= new(ConfirmPassword, CanConfirmPassword);
-	private void ConfirmPassword()
-	{
-		if (CanConfirmPassword())
-		{
-			if (File.Exists(FilePath))
-			{
-				try
-				{
+
+	private void ConfirmPassword() {
+		if (CanConfirmPassword()) {
+			if (File.Exists(FilePath)) {
+				try {
 					string password = Password;
 
 					using FileStream fs = File.OpenRead(FilePath);
@@ -174,9 +152,7 @@ internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabVi
 					string plainText = sr.ReadToEnd();
 
 					ViewText = plainText;
-				}
-				catch (Exception ex)
-				{
+				} catch (Exception ex) {
 					DebugLoggerManager.HandledLogger.Log(ex, "PasswordView_ConfirmPassword");
 					MessageBoxService.ShowMessage(ex.ToString(), "Error", MessageButton.OK, MessageIcon.Error);
 					return;
@@ -187,20 +163,17 @@ internal class PasswordViewModel(IAppSettingsService appSettingsService) : TabVi
 			//todo : focus the textbox
 		}
 	}
+
 	private bool CanConfirmPassword() => Password.IsNotBlank();
 
 
 	private DelegateCommand<KeyEventArgs>? passwordBoxKeyDownCommand;
 	public ICommand PasswordBoxKeyDownCommand => passwordBoxKeyDownCommand ??= new(PasswordBoxKeyDown);
-	private void PasswordBoxKeyDown(KeyEventArgs args)
-	{
-		if (args.Key is Key.Enter)
-		{
+
+	private void PasswordBoxKeyDown(KeyEventArgs args) {
+		if (args.Key is Key.Enter) {
 			ConfirmPassword();
 			args.Handled = true;
 		}
 	}
-
-
-
 }
