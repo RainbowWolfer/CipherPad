@@ -28,11 +28,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DevExpressMvvm" Version="24.1.6" />
+		<PackageReference Include="RW.Base.WPF" Version="1.0.13" />
+		<PackageReference Include="RW.Common" Version="1.0.13" />
+		<PackageReference Include="RW.Common.WPF" Version="1.0.13" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="HandyControls" Version="3.6.0" />
-		<PackageReference Include="RW.Base.WPF" Version="1.0.9" />
-		<PackageReference Include="RW.Common" Version="1.0.9" />
-		<PackageReference Include="RW.Common.WPF" Version="1.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,24 +52,24 @@
 
 
 	<ItemGroup>
-	  <Compile Update="Properties\AppStrings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>AppStrings.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Properties\AppStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AppStrings.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Properties\AppStrings.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Properties\AppStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 
 	<ItemGroup>
-	  <Folder Include="ViewModelServices\" />
+		<Folder Include="ViewModelServices\" />
 	</ItemGroup>
 
 </Project>

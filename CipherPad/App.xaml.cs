@@ -1,5 +1,6 @@
 ﻿using CipherPad.Properties;
 using RW.Base.WPF;
+using RW.Base.WPF.Configs;
 using RW.Base.WPF.Extensions;
 using RW.Base.WPF.ViewModels;
 using System.Diagnostics;
@@ -12,17 +13,18 @@ public partial class App : ApplicationBase {
 	private static App? instance;
 	public static App Instance => instance!;
 
+	static App() {
+		DebugConfig.Print = o => Debug.WriteLine(o);
+		DebugConfig.DebuggerBreak = Debugger.Break;
+	}
+
 	public override bool IsRelease => AppConfig.IsRelease;
 
 	public App() {
 		instance = this;
 	}
 
-	public override Window GetMainWindow() => new MainWindow();
-
-	protected override void DebugPrint(string message) {
-		Debug.WriteLine(message);
-	}
+	protected override Window GetMainWindow() => new MainWindow();
 
 	protected override CultureInfo? GetCultureInfo() {
 		// todo
@@ -33,14 +35,7 @@ public partial class App : ApplicationBase {
 	protected override DllLoader GetDllLoader() => new _DllLoader();
 	protected override IoCInitializer GetIoCInitializer() => new _IoCInitializer(DllLoader);
 
-	protected override string GetMutexName() => $"{AppConfig.AppName}.{AppConfig.AppName}";
-	protected override string GetPipeName() => $"{AppConfig.AppName}.{AppConfig.AppName}";
-
-	protected override void LogException(Exception exception, string flag) {
-		Debug.WriteLine($"{flag} - {exception}");
-	}
-
 	protected override void ShowFatalDialog(Exception exception) {
-
+		MessageBox.Show(exception.ToString(), "Fatal Error");
 	}
 }

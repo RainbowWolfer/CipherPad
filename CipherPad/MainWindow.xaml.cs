@@ -57,11 +57,11 @@ public class MainWindowViewModel : ViewModelBase {
 	}
 
 	private ITabViewModel CreateTabViewModel<T>() where T : notnull {
-		return (ServicePool.Resolve<T>() as ITabViewModel) ?? throw new Exception();
+		return (IoC.Resolve<T>() as ITabViewModel) ?? throw new Exception();
 	}
 
 	private ITabViewModel CreateTabViewModel(Type type) {
-		return (ServicePool.Resolve(type) as ITabViewModel) ?? throw new Exception();
+		return (IoC.Resolve(type) as ITabViewModel) ?? throw new Exception();
 	}
 
 
